@@ -1,0 +1,10 @@
+<div
+  [class.selected]="selected"
+  >
+  <span class="tile-number">
+    {{tile.displayNumber}}
+  </span>
+
+  <input #letterInput type="text" (keydown)="onInputChange($event)" maxlength="1">
+  <div class="letter">{{tile.displayValue}}</div>
+</div>

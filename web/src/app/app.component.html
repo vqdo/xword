@@ -1,0 +1,11 @@
+<div>
+  <ul>
+    <li *ngFor="let id of crosswordIds"
+        (click)="createNewGame(id)"
+    >
+      {{id}}
+    </li>
+  </ul>
+</div>
+
+<router-outlet></router-outlet>

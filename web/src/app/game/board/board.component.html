@@ -1,0 +1,21 @@
+<div
+  [ngClass]="direction === 'A' ? 'dir-across' : 'dir-down'">
+  <div
+    *ngFor="let row of game.board"
+    class="board-row">
+    <xw-tile *ngFor="let tile of row"
+      [tile]="tile"
+      [selected]="tile === selectedTile"
+
+      class="tile"
+      [class.tile-invalid]="tile.value === -1"
+      [class.selected-clue]="tile.getClues().indexOf(game.selectedClue) > -1"
+      [class.selected-tile]="tile === selectedTile"
+      [class.selected-first-letter]="game.selectedClue && game.selectedClue.position.isEqualTo(tile.position)"
+      (click)="onTileSelected(tile)"
+      (update)="onTileUpdated(tile)"
+      (arrowPress)="onArrowPress(tile,$event)"
+    >
+    </xw-tile>
+  </div>
+</div>

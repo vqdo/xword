@@ -1,0 +1,54 @@
+@import 'variables';
+
+.board-row {
+  display: flex;
+
+  .tile {
+    border: 1px solid #ccc;
+    border-width: 1px 0 0 1px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    height: 60px;
+    width: 60px;
+    padding: 30px 0;
+
+    &.selected-first-letter ::ng-deep .tile-number {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+      color: inherit;
+      font-weight: bold;
+    }
+
+    &:last-child {
+      border-right-width: 1px;
+    }
+    &.tile-invalid {
+      background: repeating-linear-gradient(45deg, #777, #777 5px, #888 5px, #888 10px);
+    }
+
+    &.selected-clue {
+      background: repeating-linear-gradient(45deg, #ddebf0, #ddebf0 5px, #FFF 5px, #FFF 10px);
+      color: #666;
+
+      &:not(.selected-first-letter) {
+        ::ng-deep .tile-number {
+          opacity: 0.5;
+        }
+        &.selected-tile ::ng-deep .tile-number {
+          opacity: 0.2;
+        }
+      }
+    }
+
+    &.selected-tile {
+      background: #ddebf0;
+      box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  &:last-child {
+    .tile {
+      border-bottom-width: 1px;
+    }
+  }
+}
