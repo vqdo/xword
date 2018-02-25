@@ -8,6 +8,7 @@ interface ClueParams {
   tileLength: number;
   hint: string;
   direction: Direction;
+  answer: string;
 }
 
 export class Clue {
@@ -16,6 +17,7 @@ export class Clue {
   public position: Position;
   public tileLength: number;
   public hint: string;
+  public answer: string;
 
   constructor(args: ClueParams) {
     Object.assign(this, args);

@@ -1,19 +1,19 @@
 import { Clue, Direction } from './clue';
 import { Position } from './position';
+import { Entry } from './entry';
 
-interface TileClue {
-  isStartTile: boolean;
-  clue: Clue;
-}
+// interface TileEntry {
+//   isStartTile: boolean;
+//   clue: Clue;
+// }
 
 interface TileParams {
-  clues?: Clue[];
   value?: -1 | string;
   position: Position;
 }
 
 export class Tile {
-  public associatedClues: TileClue[] = [];
+  public associatedEntries: Entry[] = [];
   public value: -1 | string = -1;
   public position: Position;
 
@@ -25,34 +25,25 @@ export class Tile {
     return this.value === -1 ? '' : this.value;
   }
 
-  public setAttributes(args: TileParams) {
-    this.value = args.value || -1;
-    this.position = new Position(args.position.x, args.position.y);
-    if (args.clues) {
-      this.clues = args.clues;
-    }
-  }
-
-  public addClue(clue: Clue) {
-    this.associatedClues.push(this.clueToAssociatedClue(clue));
-  }
-
   get displayNumber(): string {
-    const startTiles = this.associatedClues.filter((clue) => clue.isStartTile);
-    if (startTiles.length) {
-      return `${startTiles[0].clue.number}`;
+    const entry = this.associatedEntries.find((entry) => entry.startTile === this);
+    if (entry) {
+      return `${entry.clue.number}`;
     }
     return '';
   }
 
-  public getClues(): Clue[] {
-    return this.associatedClues.map((ascClue: TileClue) => ascClue.clue);
+  public setAttributes(args: TileParams) {
+    this.value = args.value || -1;
+    this.position = new Position(args.position.x, args.position.y);
   }
 
-  set clues(clues: Clue[]) {
-    clues.forEach((clue) => {
-      this.associatedClues.push(this.clueToAssociatedClue(clue));
-    });
+  public addEntry(entry: Entry) {
+    this.associatedEntries.push(entry);
+  }
+
+  public getClues(): Clue[] {
+    return this.associatedEntries.map((entry: Entry) => entry.clue);
   }
 
   public getClue(direction: Direction) {
@@ -61,12 +52,5 @@ export class Tile {
     } catch (_) {
       return this.getClues()[0];
     }
-  }
-
-  private clueToAssociatedClue(clue: Clue): TileClue {
-    return {
-      isStartTile: clue.position.isEqualTo(this.position),
-      clue: clue,
-    };
   }
 }

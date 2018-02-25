@@ -2,6 +2,7 @@ import { Crossword } from './crossword';
 import { Tile } from './tile';
 import { Position } from './position';
 import { Clue, Direction } from './clue';
+import { Entry } from './entry'
 
 const BOARD_SIZE = 15;
 
@@ -101,17 +102,17 @@ export class Game {
 
   private populateBoard() {
     this.crossword.clues.forEach((clue) => {
+      const tiles = [];
       let [x, y] = [clue.position.x, clue.position.y];
       for (let i = 0; i < clue.tileLength; i++) {
-        const tile = this.board[y][x];
-        tile.addClue(clue);
-        tile.value = '';
+        tiles.push(this.getTile({x, y}));
         if (clue.direction === 'A') {
           x++;
         } else {
           y++;
         }
       }
+      const answer = new Entry({ tiles, clue });
     });
   }
 }
