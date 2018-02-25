@@ -82,6 +82,7 @@ export class CrosswordDataService {
           tileLength: clue.length,
           hint: clue.hint,
           direction: clue.direction,
+          answer: clue.answer,
         });
       }),
     });
