@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Game } from '@app/models';
+import { Game, Clue } from '@app/models';
 import { CrosswordDataService } from '@services/crossword-data.service';
 
 @Component({
@@ -24,6 +24,10 @@ export class GameComponent implements OnInit {
       .subscribe((game) => {
         this.game = game;
       });
+  }
+
+  public setSelected(clue: Clue) {
+    this.game.selectedClue = clue;
   }
 
 }
