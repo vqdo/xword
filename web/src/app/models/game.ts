@@ -23,50 +23,40 @@ export class Game {
     this.initBoard();
   }
 
-  public previousTile(tile: Tile, direction: Direction) {
-    const entry = tile.getEntry(direction);
-    const prev = entry.getTileByOffset(tile, -1);
-    if (prev) {
-      return prev;
-    }
-    if (direction === 'A') {
-      for (let i = tile.position.x - 1; i > 0; i--) {
-        tile  = this.getTile({ x: i, y: tile.position.y});
-        if (tile.value !== -1) {
-          return tile;
-        }
-      }
-    } else if (direction === 'D') {
-      for (let i = tile.position.y - 1; i > 0; i--) {
-        tile  = this.getTile({ x: tile.position.x, y: i});
-        if (tile.value !== -1) {
-          return tile;
-        }
-      }
-    }
-    return null;
-  }
-
   public nextTile(tile: Tile, direction: Direction) {
-    const entry = tile.getEntry(direction);
-    const next = entry.getTileByOffset(tile, 1);
+    const next = tile.getEntry(direction).getTileByOffset(tile, 1);
     if (next) {
       return next;
     }
     if (direction === 'A') {
-      for (let i = tile.position.x + 1; i < BOARD_SIZE; i++) {
-        tile  = this.getTile({ x: i, y: tile.position.y});
-        if (tile.value !== -1) {
-          return tile;
-        }
-      }
+      return this.getNextValidTile(tile.position.add([1, 0]), [1, 0]);
     } else if (direction === 'D') {
-      for (let i = tile.position.y + 1; i < BOARD_SIZE; i++) {
-        tile  = this.getTile({ x: tile.position.x, y: i});
-        if (tile.value !== -1) {
-          return tile;
-        }
+      return this.getNextValidTile(tile.position.add([0, 1]), [0, 1]);
+    }
+    return null;
+  }
+
+  public previousTile(tile: Tile, direction: Direction) {
+    const prev = tile.getEntry(direction).getTileByOffset(tile, -1);
+    if (prev) {
+      return prev;
+    }
+    if (direction === 'A') {
+      return this.getNextValidTile(tile.position.add([-1, 0]), [-1, 0]);
+    } else if (direction === 'D') {
+      return this.getNextValidTile(tile.position.add([0, -1]), [0, -1]);
+    }
+  }
+
+  private getNextValidTile(position: Position, step: [number, number]) {
+    const [xDelta, yDelta] = step;
+    let tile = this.getTile(position);
+    while (tile) {
+      if (tile.value !== -1) {
+        return tile;
       }
+      position = position.add([xDelta, yDelta]);
+      tile = this.getTile(position);
     }
     return null;
   }
