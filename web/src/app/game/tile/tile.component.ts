@@ -1,7 +1,9 @@
 import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 import { Clue, Tile } from '@app/models';
 
-const LETTER_RANGE_START = 'A'.charCodeAt(0);
+const CAP_LETTER_RANGE_START = 'A'.charCodeAt(0);
+const CAP_LETTER_RANGE_END = 'Z'.charCodeAt(0);
+const LETTER_RANGE_START = 'a'.charCodeAt(0);
 const LETTER_RANGE_END = 'z'.charCodeAt(0);
 const ARROW_RANGE_START = 37;
 const ARROW_RANGE_END = 40;
@@ -37,7 +39,8 @@ export class TileComponent implements OnInit, OnChanges {
 
   public onInputChange(keyEvt) {
     const { keyCode, key } = keyEvt;
-    if (keyCode >= LETTER_RANGE_START && keyCode <= LETTER_RANGE_END) {
+    if ((keyCode >= CAP_LETTER_RANGE_START && keyCode <= CAP_LETTER_RANGE_END) ||
+        (keyCode >= LETTER_RANGE_START && keyCode <= LETTER_RANGE_END)) {
       this.tile.value = key.toUpperCase();
       this.update.emit(this.tile.displayValue);
     } else if (key === 'Backspace') {
