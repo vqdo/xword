@@ -1,21 +1,18 @@
 import { Clue, Direction } from './clue';
 import { Position } from './position';
-
-interface TileClue {
-  isStartTile: boolean;
-  clue: Clue;
-}
+import { Entry } from './entry';
 
 interface TileParams {
-  clues?: Clue[];
   value?: -1 | string;
   position: Position;
 }
 
 export class Tile {
-  public associatedClues: TileClue[] = [];
-  public value: -1 | string = -1;
+  public associatedEntries: Entry[] = [];
   public position: Position;
+  public correct: boolean = false;
+
+  private _value: -1 | string = -1;
 
   constructor(args: TileParams) {
     this.setAttributes(args);
@@ -25,34 +22,38 @@ export class Tile {
     return this.value === -1 ? '' : this.value;
   }
 
-  public setAttributes(args: TileParams) {
-    this.value = args.value || -1;
-    this.position = new Position(args.position.x, args.position.y);
-    if (args.clues) {
-      this.clues = args.clues;
-    }
-  }
-
-  public addClue(clue: Clue) {
-    this.associatedClues.push(this.clueToAssociatedClue(clue));
-  }
-
   get displayNumber(): string {
-    const startTiles = this.associatedClues.filter((clue) => clue.isStartTile);
-    if (startTiles.length) {
-      return `${startTiles[0].clue.number}`;
+    const entry = this.associatedEntries.find((e) => e.startTile === this);
+    if (entry) {
+      return `${entry.clue.number}`;
     }
     return '';
   }
 
-  public getClues(): Clue[] {
-    return this.associatedClues.map((ascClue: TileClue) => ascClue.clue);
+  get value() {
+    return this._value;
   }
 
-  set clues(clues: Clue[]) {
-    clues.forEach((clue) => {
-      this.associatedClues.push(this.clueToAssociatedClue(clue));
-    });
+  set value(value) {
+    this._value = value;
+    this.checkValue();
+  }
+
+  public setAttributes(args: TileParams) {
+    this.value = args.value || -1;
+    this.position = new Position(args.position.x, args.position.y);
+  }
+
+  public addEntry(entry: Entry) {
+    this.associatedEntries.push(entry);
+  }
+
+  public getEntry(direction: Direction) {
+    return this.associatedEntries.filter((entry) => entry.clue.direction === direction)[0];
+  }
+
+  public getClues(): Clue[] {
+    return this.associatedEntries.map((entry: Entry) => entry.clue);
   }
 
   public getClue(direction: Direction) {
@@ -63,10 +64,7 @@ export class Tile {
     }
   }
 
-  private clueToAssociatedClue(clue: Clue): TileClue {
-    return {
-      isStartTile: clue.position.isEqualTo(this.position),
-      clue: clue,
-    };
+  private checkValue() {
+    this.correct = this.associatedEntries.every((entry) => entry.checkTile(this));
   }
 }
