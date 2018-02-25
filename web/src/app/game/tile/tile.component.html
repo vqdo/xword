@@ -1,5 +1,6 @@
 <div
   [class.selected]="selected"
+  [class.has-error]="tile.displayValue && !tile.correct"
   >
   <span class="tile-number">
     {{tile.displayNumber}}

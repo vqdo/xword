@@ -10,7 +10,6 @@ interface EntryParams {
 export class Entry {
   public tiles: Tile[];
   public clue: Clue;
-  public correct: boolean = false;
 
   constructor(args: EntryParams) {
     Object.assign(this, args);
@@ -33,7 +32,15 @@ export class Entry {
     return this.tiles[0];
   }
 
-  public checkAnswer(): boolean {
+  get correct() {
     return this.clue.answer === this.currentEntry;
+  }
+
+  public checkTile(tile) {
+    const i = this.tiles.indexOf(tile);
+    if (i < 0) {
+      throw Error('Invalid tile');
+    }
+    return this.clue.answer.charAt(i) === tile.value;
   }
 }
