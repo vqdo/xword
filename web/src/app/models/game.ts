@@ -24,28 +24,23 @@ export class Game {
   }
 
   public previousTile(tile: Tile, direction: Direction) {
-    const clue = tile.getClue(direction);
-    const {x, y} = clue.position.getOffset(tile.position);
+    const entry = tile.getEntry(direction);
+    const prev = entry.getTileByOffset(tile, -1);
+    if (prev) {
+      return prev;
+    }
     if (direction === 'A') {
-      if (x > 0) {
-        return this.getTile({ x: tile.position.x - 1, y: tile.position.y });
-      } else if (tile.position.x > 0) {
-        for (let i = tile.position.x - 1; i > 0; i--) {
-          tile  = this.getTile({ x: i, y: tile.position.y});
-          if (tile.value !== -1) {
-            return tile;
-          }
+      for (let i = tile.position.x - 1; i > 0; i--) {
+        tile  = this.getTile({ x: i, y: tile.position.y});
+        if (tile.value !== -1) {
+          return tile;
         }
       }
     } else if (direction === 'D') {
-      if (y > 0) {
-        return this.getTile({ x: tile.position.x, y: tile.position.y - 1});
-      } else if (tile.position.y > 0) {
-        for (let i = tile.position.y - 1; i > 0; i--) {
-          tile  = this.getTile({ x: tile.position.x, y: i});
-          if (tile.value !== -1) {
-            return tile;
-          }
+      for (let i = tile.position.y - 1; i > 0; i--) {
+        tile  = this.getTile({ x: tile.position.x, y: i});
+        if (tile.value !== -1) {
+          return tile;
         }
       }
     }
@@ -53,28 +48,23 @@ export class Game {
   }
 
   public nextTile(tile: Tile, direction: Direction) {
-    const clue = tile.getClue(direction);
-    const {x, y} = clue.position.getOffset(tile.position);
+    const entry = tile.getEntry(direction);
+    const next = entry.getTileByOffset(tile, 1);
+    if (next) {
+      return next;
+    }
     if (direction === 'A') {
-      if (x < clue.tileLength - 1) {
-        return this.getTile({ x: tile.position.x + 1, y: tile.position.y });
-      } else if (tile.position.x < BOARD_SIZE) {
-        for (let i = tile.position.x + 1; i < BOARD_SIZE; i++) {
-          tile  = this.getTile({ x: i, y: tile.position.y});
-          if (tile.value !== -1) {
-            return tile;
-          }
+      for (let i = tile.position.x + 1; i < BOARD_SIZE; i++) {
+        tile  = this.getTile({ x: i, y: tile.position.y});
+        if (tile.value !== -1) {
+          return tile;
         }
       }
     } else if (direction === 'D') {
-      if (y < clue.tileLength - 1) {
-        return this.getTile({ x: tile.position.x, y: tile.position.y + 1});
-      } else if (tile.position.y < BOARD_SIZE) {
-        for (let i = tile.position.y + 1; i < BOARD_SIZE; i++) {
-          tile  = this.getTile({ x: tile.position.x, y: i});
-          if (tile.value !== -1) {
-            return tile;
-          }
+      for (let i = tile.position.y + 1; i < BOARD_SIZE; i++) {
+        tile  = this.getTile({ x: tile.position.x, y: i});
+        if (tile.value !== -1) {
+          return tile;
         }
       }
     }
