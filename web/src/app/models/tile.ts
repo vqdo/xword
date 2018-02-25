@@ -2,11 +2,6 @@ import { Clue, Direction } from './clue';
 import { Position } from './position';
 import { Entry } from './entry';
 
-// interface TileEntry {
-//   isStartTile: boolean;
-//   clue: Clue;
-// }
-
 interface TileParams {
   value?: -1 | string;
   position: Position;
@@ -14,8 +9,10 @@ interface TileParams {
 
 export class Tile {
   public associatedEntries: Entry[] = [];
-  public value: -1 | string = -1;
   public position: Position;
+  public correct: boolean = false;
+
+  private _value: -1 | string = -1;
 
   constructor(args: TileParams) {
     this.setAttributes(args);
@@ -26,11 +23,20 @@ export class Tile {
   }
 
   get displayNumber(): string {
-    const entry = this.associatedEntries.find((entry) => entry.startTile === this);
+    const entry = this.associatedEntries.find((e) => e.startTile === this);
     if (entry) {
       return `${entry.clue.number}`;
     }
     return '';
+  }
+
+  get value() {
+    return this._value;
+  }
+
+  set value(value) {
+    this._value = value;
+    this.checkValue();
   }
 
   public setAttributes(args: TileParams) {
@@ -40,6 +46,10 @@ export class Tile {
 
   public addEntry(entry: Entry) {
     this.associatedEntries.push(entry);
+  }
+
+  public getEntry(direction: Direction) {
+    return this.associatedEntries.filter((entry) => entry.clue.direction === direction)[0];
   }
 
   public getClues(): Clue[] {
@@ -52,5 +62,9 @@ export class Tile {
     } catch (_) {
       return this.getClues()[0];
     }
+  }
+
+  private checkValue() {
+    this.correct = this.associatedEntries.every((entry) => entry.checkTile(this));
   }
 }

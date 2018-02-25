@@ -2,7 +2,7 @@ import { Crossword } from './crossword';
 import { Tile } from './tile';
 import { Position } from './position';
 import { Clue, Direction } from './clue';
-import { Entry } from './entry'
+import { Entry } from './entry';
 
 const BOARD_SIZE = 15;
 
