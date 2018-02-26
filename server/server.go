@@ -17,6 +17,16 @@ var games map[string]*Game
 
 const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
+// Middleware
+
+func corsHandler(f http.HandlerFunc) http.HandlerFunc {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Headers", "Player-ID")
+		f(w,r)
+	})
+}
+
 func randStringBytes(n int) string {
 	b := make([]byte, n)
 	for i := range b {
@@ -26,10 +36,6 @@ func randStringBytes(n int) string {
 }
 
 func newGameHandler(w http.ResponseWriter, r *http.Request) {
-	// add cors headers
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Headers", "Player-ID")
-
 	if r.Method == "OPTIONS" {
 		return
 	}
@@ -100,10 +106,6 @@ func getGame(gameID, playerID string) (*Game, error) {
 }
 
 func existingGameHandler(w http.ResponseWriter, r *http.Request) {
-	// add cors headers
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Headers", "Player-ID")
-
 	if r.Method == "OPTIONS" {
 		return
 	}
@@ -150,10 +152,6 @@ func existingGameHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func getCluesHandler(w http.ResponseWriter, r *http.Request) {
-	// add cors headers
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Headers", "Player-ID")
-
 	if r.Method == "OPTIONS" {
 		return
 	}
@@ -197,10 +195,6 @@ func getCluesHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func submitAnswerHandler(w http.ResponseWriter, r *http.Request) {
-	// add cors headers
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Headers", "Player-ID")
-
 	if r.Method == "OPTIONS" {
 		return
 	}
@@ -266,10 +260,6 @@ func submitAnswerHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func puzzleHandler(w http.ResponseWriter, r *http.Request) {
-	// add cors headers
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Headers", "Player-ID")
-
 	files, err := ioutil.ReadDir("./puzzles")
 	if err != nil {
 		log.Println("could not read puzzles dir", "err", err)
@@ -301,11 +291,14 @@ func main() {
 
 	router := mux.NewRouter()
 	//clues
-	router.HandleFunc("/game/{gameID}/clues/{clue}", submitAnswerHandler).Methods("POST", "OPTIONS")
-	router.HandleFunc("/game/{gameID}/clues", getCluesHandler).Methods("GET", "OPTIONS")
-	router.HandleFunc("/game/{gameID}", existingGameHandler).Methods("GET", "OPTIONS")
-	router.HandleFunc("/game", newGameHandler).Methods("POST", "OPTIONS")
-	router.HandleFunc("/crosswords", puzzleHandler).Methods("GET", "OPTIONS")
+	router.HandleFunc("/game/{gameID}/clues/{clue}", corsHandler(submitAnswerHandler)).Methods("POST", "OPTIONS")
+	router.HandleFunc("/game/{gameID}/clues", corsHandler(getCluesHandler)).Methods("GET", "OPTIONS")
+	router.HandleFunc("/game/{gameID}", corsHandler(existingGameHandler)).Methods("GET", "OPTIONS")
+	router.HandleFunc("/game", corsHandler(newGameHandler)).Methods("POST", "OPTIONS")
+	router.HandleFunc("/crosswords", corsHandler(puzzleHandler)).Methods("GET", "OPTIONS")
 	http.Handle("/", router)
-	http.ListenAndServe(":9999", nil)
+	err := http.ListenAndServe(":9999", nil)
+	if err != nil {
+		fmt.Printf("err: %v\n", err)
+	}
 }
