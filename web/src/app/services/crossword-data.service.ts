@@ -10,8 +10,14 @@ interface CrosswordResponse {
   'crossword_ids': string[];
 }
 
-interface GameResponse {
+interface NewGameResponse {
   'game_id': string;
+}
+
+interface GameResponse {
+  'board_height': number;
+  'board_state': string;
+  'board_width': number;
 }
 
 interface CluesResponse {
@@ -43,8 +49,9 @@ export class CrosswordDataService {
       'crossword_id': crosswordId,
       'player_ids': ['eric', 'victoria'],
     };
+
     return this.http.post(AppConfig.GAME_URL, JSON.stringify(data))
-      .mergeMap((res: GameResponse) => {
+      .mergeMap((res: NewGameResponse) => {
         return this.getGame(res.game_id);
       })
       .do((game) => {
@@ -60,10 +67,11 @@ export class CrosswordDataService {
     return this.http.get(`${AppConfig.GAME_URL}/${gameId}`)
       .mergeMap((res: GameResponse) => {
         return this.http.get(`${AppConfig.GAME_URL}/${gameId}/clues`)
-          .map((clueRes: CluesResponse) => {
+          .map((clueRes: CluesResponse) => this.extractClues(clueRes))
+          .map((clues: Clue[]) => {
             return new Game({
               id: gameId,
-              crossword: this.extractCrossword(clueRes),
+              crossword: this.extractCrossword(res, clues),
             });
           });
       });
@@ -73,18 +81,24 @@ export class CrosswordDataService {
     return crosswordRes.crossword_ids;
   }
 
-  private extractCrossword(clueRes: CluesResponse) {
+  private extractCrossword(res: GameResponse, clues: Clue[]) {
     return new Crossword({
-      clues: clueRes.clues.map((clue) => {
-        return new Clue({
-          number: clue.clue_number,
-          position: { x: clue.x, y: clue.y },
-          tileLength: clue.length,
-          hint: clue.hint,
-          direction: clue.direction,
-          answer: clue.answer,
-        });
-      }),
+      clues: clues,
+      width: res.board_width,
+      height: res.board_height,
+    });
+  }
+
+  private extractClues(clueRes: CluesResponse): Clue[] {
+    return clueRes.clues.map((clue) => {
+      return new Clue({
+        number: clue.clue_number,
+        position: { x: clue.x, y: clue.y },
+        tileLength: clue.length,
+        hint: clue.hint,
+        direction: clue.direction,
+        answer: clue.answer,
+      });
     });
   }
 }
