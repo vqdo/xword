@@ -36,6 +36,11 @@ export class Entry {
     return this.clue.answer === this.currentEntry;
   }
 
+  public getTileByOffset(tile: Tile, offset: number) {
+    const i = this.tiles.indexOf(tile);
+    return this.tiles[i + offset] || null;
+  }
+
   public checkTile(tile) {
     const i = this.tiles.indexOf(tile);
     if (i < 0) {
