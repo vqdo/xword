@@ -5,12 +5,16 @@ interface CrosswordParams {
   date?: Date;
   title?: string;
   clues?: Clue[];
+  height: number;
+  width: number;
 }
 
 export class Crossword {
   public id: string = '123';
   public date: Date = new Date();
   public title: string = 'Untitled Crossword';
+  public height: number;
+  public width: number;
   private _clues: Clue[] = [];
   private cluesByDirection: { A: Clue[], D: Clue[] };
 
@@ -19,9 +23,12 @@ export class Crossword {
     this.date = args.date || this.date;
     this.clues = args.clues || this._clues;
     this.title = args.title;
+    this.height = args.height;
+    this.width = args.width;
   }
 
   set clues(clues: Clue[]) {
+
     clues.sort((a, b) => a.number - b.number);
     this._clues = clues;
 

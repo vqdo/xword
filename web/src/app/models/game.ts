@@ -4,8 +4,6 @@ import { Position } from './position';
 import { Clue, Direction } from './clue';
 import { Entry } from './entry';
 
-const BOARD_SIZE = 15;
-
 interface GameParams {
   id: string;
   crossword: Crossword;
@@ -67,9 +65,9 @@ export class Game {
 
   private initBoard() {
     this.board = [];
-    for (let i = 0; i < BOARD_SIZE; i++) {
+    for (let i = 0; i < this.crossword.height; i++) {
       const row = [];
-      for (let j = 0; j < BOARD_SIZE; j++) {
+      for (let j = 0; j < this.crossword.height; j++) {
         row.push(new Tile({
           position: new Position(j, i),
         }));
