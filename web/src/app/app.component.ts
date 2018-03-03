@@ -6,7 +6,7 @@ import { Game, Crossword } from '@app/models';
 import 'rxjs/add/operator/first';
 
 @Component({
-  selector: 'xw-root',
+  selector: 'xw-app',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })

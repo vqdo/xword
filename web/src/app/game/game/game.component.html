@@ -1,5 +1,12 @@
 <div *ngIf="game">
-  <h1>Game details</h1>
+  <h1>{{game.crossword.title || 'No title'}}</h1>
+  <div class="clue-bar">
+    <button>«</button>
+    <div>
+      {{game.selectedClue && game.selectedClue.hint}}
+    </div>
+    <button>»</button>
+  </div>
   <div class="game-container">
     <xw-board [game]="game"></xw-board>
     <div class="clues">

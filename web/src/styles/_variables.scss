@@ -1,1 +1,7 @@
-//
+$color-primary: #22aee1;
+
+@mixin reset-button() {
+  border: 0;
+  cursor: pointer;
+  outline: 0;
+}

@@ -1,6 +1,25 @@
+@import 'variables';
+
+:host {
+  display: block;
+  padding: 0 1em;
+}
+
 ul {
   max-height: 250px;
   overflow: auto;
+}
+
+.clue-bar {
+  display: flex;
+  justify-content: space-between;
+  button {
+    font-size: 1.5em;
+    @include reset-button();
+    &:hover {
+      color: $color-primary;
+    }
+  }
 }
 
 .game-container {
