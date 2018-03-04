@@ -2,7 +2,25 @@
 
 :host {
   display: block;
-  padding: 0 1em;
+}
+
+.game {
+  display: flex;
+  flex-flow: column nowrap;
+  header {
+    color: #ef6a4d;
+    display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+    font-size: 1.1em;
+    padding: 0.3em 0.5em;
+    h1 {
+      font-size: inherit;
+      margin: 0;
+      letter-spacing: -1px;
+      text-transform: uppercase;
+    }
+  }
 }
 
 ul {
@@ -11,14 +29,24 @@ ul {
 }
 
 .clue-bar {
+  background: #e74a28;
+  box-sizing: border-box;
+  color: #FFF;
   display: flex;
-  justify-content: space-between;
+    align-items: center;
+    justify-content: space-between;
+  padding: 0 0.5em;
+  width: 100%;
   button {
+    color: inherit;
     font-size: 1.5em;
     @include reset-button();
     &:hover {
       color: $color-primary;
     }
+  }
+  &.xw-sticky {
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
   }
 }
 

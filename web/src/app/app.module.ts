@@ -10,6 +10,8 @@ import { CoreModule } from '@app/core/core.module';
 import { TileComponent } from './game/tile/tile.component';
 import { GameComponent } from './game/game/game.component';
 
+import { StickyDirective } from './shared/directives/sticky.directive';
+
 
 @NgModule({
   declarations: [
@@ -17,6 +19,7 @@ import { GameComponent } from './game/game/game.component';
     BoardComponent,
     TileComponent,
     GameComponent,
+    StickyDirective,
   ],
   imports: [
     AppRoutingModule,

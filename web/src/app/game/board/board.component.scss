@@ -4,7 +4,7 @@
   display: flex;
 
   .tile {
-    border: 1px solid #ccc;
+    border: 1px solid #444;
     border-width: 1px 0 0 1px;
     box-sizing: border-box;
     display: flex;
@@ -23,7 +23,7 @@
       border-right-width: 1px;
     }
     &.tile-invalid {
-      background: repeating-linear-gradient(45deg, #777, #777 5px, #888 5px, #888 10px);
+      background: repeating-linear-gradient(45deg, #444, #444 5px, #333 5px, #333 10px);
     }
 
     &.selected-clue {

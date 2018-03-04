@@ -1,6 +1,9 @@
-<div *ngIf="game">
-  <h1>{{game.crossword.title || 'No title'}}</h1>
-  <div class="clue-bar">
+<div *ngIf="game" class="game">
+  <header>
+    <h1>{{game.crossword.title || 'No title'}}</h1>
+    <span>{{game.crossword.date | date:'fullDate'}}</span>
+  </header>
+  <div class="clue-bar" xw-sticky>
     <button>«</button>
     <div>
       {{game.selectedClue && game.selectedClue.hint}}
