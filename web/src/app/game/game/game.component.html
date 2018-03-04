@@ -3,7 +3,7 @@
     <h1>{{game.crossword.title || 'No title'}}</h1>
     <span>{{game.crossword.date | date:'fullDate'}}</span>
   </header>
-  <div class="clue-bar" xw-sticky>
+  <div class="clue-bar" xwSticky>
     <button>«</button>
     <div>
       {{game.selectedClue && game.selectedClue.hint}}
