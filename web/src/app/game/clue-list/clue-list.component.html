@@ -1,0 +1,8 @@
+<h1>{{title}}</h1>
+<ul [class.is-active]="isActive">
+  <li *ngFor="let clue of clues"
+      [class.selected-clue]="selectedClue === clue"
+      (click)="onClueSelect(clue)">
+    <strong>{{clue.number}}</strong><span>{{clue.hint}}</span>
+  </li>
+</ul>

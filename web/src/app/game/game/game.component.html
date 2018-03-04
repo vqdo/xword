@@ -11,25 +11,17 @@
     <button>»</button>
   </div>
   <div class="game-container">
-    <xw-board [game]="game"></xw-board>
+    <xw-board #board [game]="game"></xw-board>
     <div class="clues">
-      <h2>Across</h2>
-      <ul>
-        <li *ngFor="let clue of game.crossword.acrossClues"
-            [class.selected-clue]="game.selectedClue === clue"
-            (click)="setSelected(clue)">
-          <strong>{{clue.number}}</strong><span>{{clue.hint}}</span>
-        </li>
-      </ul>
+      <xw-clue-list [title]="'Across'"
+        [clues]="game.crossword.acrossClues"
+        [selectedClue]="game.selectedClue"
+        (clueSelect)="board.selectClue($event)"></xw-clue-list>
 
-      <h2>Down</h2>
-      <ul>
-        <li *ngFor="let clue of game.crossword.downClues"
-            [class.selected-clue]="game.selectedClue === clue"
-            (click)="setSelected(clue)">
-          <strong>{{clue.number}}</strong><span>{{clue.hint}}</span>
-        </li>
-      </ul>
+      <xw-clue-list [title]="'Down'"
+        [clues]="game.crossword.downClues"
+        [selectedClue]="game.selectedClue"
+        (clueSelect)="board.selectClue($event) "></xw-clue-list>
     </div>
   </div>
 </div>

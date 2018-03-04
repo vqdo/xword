@@ -26,8 +26,4 @@ export class GameComponent implements OnInit {
       });
   }
 
-  public setSelected(clue: Clue) {
-    this.game.selectedClue = clue;
-  }
-
 }
