@@ -7,6 +7,7 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
+	"os"
 	"path"
 	"strings"
 
@@ -131,6 +132,34 @@ func existingGameHandler(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(fmt.Sprintf("game id: %s not found or you are not part of it", gameID)))
 		return
 	}
+
+	if r.Method == "POST" {
+		
+		body, err := ioutil.ReadAll(r.Body)
+		if err != nil {
+			w.WriteHeader(404)
+			w.Write([]byte("could not read request body"))
+			return
+		}
+		var updateRequest GameUpdateRequest 
+
+		err = json.Unmarshal(body, &updateRequest)
+		if err != nil {
+			w.WriteHeader(404)
+			w.Write([]byte("could not parse request"))
+			return
+		}
+
+		err = game.Grid.updateBoard(updateRequest.BoardState)
+		if err != nil {
+			w.WriteHeader(400)
+			w.Write([]byte("board state format is incorrect"))
+		} else {
+			w.WriteHeader(202)
+		}
+		return
+	}
+
 	boardStr := game.Grid.getBoard()
 
 	var stateRequest GameStateRequest
@@ -293,11 +322,11 @@ func main() {
 	//clues
 	router.HandleFunc("/game/{gameID}/clues/{clue}", corsHandler(submitAnswerHandler)).Methods("POST", "OPTIONS")
 	router.HandleFunc("/game/{gameID}/clues", corsHandler(getCluesHandler)).Methods("GET", "OPTIONS")
-	router.HandleFunc("/game/{gameID}", corsHandler(existingGameHandler)).Methods("GET", "OPTIONS")
+	router.HandleFunc("/game/{gameID}", corsHandler(existingGameHandler)).Methods("GET", "POST", "OPTIONS")
 	router.HandleFunc("/game", corsHandler(newGameHandler)).Methods("POST", "OPTIONS")
 	router.HandleFunc("/crosswords", corsHandler(puzzleHandler)).Methods("GET", "OPTIONS")
 	http.Handle("/", router)
-	err := http.ListenAndServe(":9999", nil)
+	err := http.ListenAndServe(":"+os.Getenv("PORT"), nil)
 	if err != nil {
 		fmt.Printf("err: %v\n", err)
 	}

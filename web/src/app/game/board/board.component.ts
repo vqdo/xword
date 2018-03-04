@@ -53,7 +53,6 @@ export class BoardComponent implements OnInit {
   }
 
   public onArrowPress(tile: Tile, evt: KeyboardEvent) {
-    console.log(evt);
     switch (evt.key) {
       case 'ArrowDown':
         this.selectedTile = this.nextTile('D');

@@ -93,4 +93,44 @@ export class Game {
       const answer = new Entry({ tiles, clue });
     });
   }
+
+  private printRow(row: Tile[]): string {
+    let rowStr = '';
+    row.forEach((tile: Tile) => {
+      if (tile.value === -1) {
+        rowStr += '#';
+      } else if (tile.value === '') {
+        rowStr += ' ';
+      } else {
+        rowStr += tile.value;
+      }
+    });
+    return rowStr;
+  }
+
+  public serializeBoard(): string {
+    let boardStr = '';
+    this.board.forEach((row: Tile[]) => {
+      boardStr += this.printRow(row);
+    });
+    return boardStr;
+  }
+
+  public deserializeBoard(boardStr: string) {
+    if (boardStr.length !== this.crossword.height * this.crossword.width) {
+      throw Error('incorrectly formatted board string');
+    }
+
+    for (let i = 0; i < boardStr.length; i++) {
+      const str = boardStr.charAt(i);
+      if (str !== ' ' && str !== '#') {
+        const row = Math.floor(i / this.crossword.width);
+        const col = i % this.crossword.width;
+        const tile = this.board[row][col];
+        if (tile.value === '') {
+          tile.value = str;
+        }
+      }
+    }
+  }
 }
