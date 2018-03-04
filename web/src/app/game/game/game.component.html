@@ -3,13 +3,16 @@
     <h1>{{game.crossword.title || 'No title'}}</h1>
     <span>{{game.crossword.date | date:'fullDate'}}</span>
   </header>
-  <div class="clue-bar" xw-sticky>
+  <div class="clue-bar" xwSticky>
     <button>«</button>
     <div>
       {{game.selectedClue && game.selectedClue.hint}}
     </div>
     <button>»</button>
   </div>
+  <button (click)="sync()">sync</button>
+  <div id="gameId" contenteditable="true">enter game id here</div>
+  <button (click)="updateGameId()">join game</button>
   <div class="game-container">
     <xw-board [game]="game"></xw-board>
     <div class="clues">

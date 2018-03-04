@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Game, Clue } from '@app/models';
+import { Tile, Game, Clue } from '@app/models';
 import { CrosswordDataService } from '@services/crossword-data.service';
 
 @Component({
@@ -30,4 +30,14 @@ export class GameComponent implements OnInit {
     this.game.selectedClue = clue;
   }
 
+  public sync() {
+    this.crosswordDataService.sync(this.game).subscribe((game) => {
+      this.game = game;
+    });
+  }
+
+  public updateGameId() {
+    const gameId = document.getElementById('gameId').innerHTML;
+    this.game.id = gameId;
+  }
 }

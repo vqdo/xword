@@ -196,7 +196,7 @@ func (g *Game) readCrossword(crosswordID string) error {
 	}
 
 	g.Grid.init(boardWidth, boardHeight)
-	g.Grid.updateBoard(g.Clues)
+	g.Grid.setBoard(g.Clues)
 
 	return nil
 }
