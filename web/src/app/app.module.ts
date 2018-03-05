@@ -11,6 +11,7 @@ import { TileComponent } from './game/tile/tile.component';
 import { GameComponent } from './game/game/game.component';
 
 import { StickyDirective } from './shared/directives/sticky.directive';
+import { ClueListComponent } from './game/clue-list/clue-list.component';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import { StickyDirective } from './shared/directives/sticky.directive';
     TileComponent,
     GameComponent,
     StickyDirective,
+    ClueListComponent,
   ],
   imports: [
     AppRoutingModule,
