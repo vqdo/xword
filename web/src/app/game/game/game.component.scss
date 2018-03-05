@@ -8,7 +8,7 @@
   display: flex;
   flex-flow: column nowrap;
   header {
-    color: $color-red;
+    color: $color-tomato;
     display: flex;
       align-items: baseline;
       justify-content: space-between;
@@ -29,7 +29,7 @@ ul {
 }
 
 .clue-bar {
-  background: $color-red;
+  background: $color-tomato;
   box-sizing: border-box;
   color: #FFF;
   display: flex;
