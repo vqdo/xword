@@ -7,6 +7,7 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
+	"os"
 	"path"
 	"strings"
 
@@ -297,7 +298,7 @@ func main() {
 	router.HandleFunc("/game", corsHandler(newGameHandler)).Methods("POST", "OPTIONS")
 	router.HandleFunc("/crosswords", corsHandler(puzzleHandler)).Methods("GET", "OPTIONS")
 	http.Handle("/", router)
-	err := http.ListenAndServe(":9999", nil)
+	err := http.ListenAndServe(":"+os.Getenv("PORT"), nil)
 	if err != nil {
 		fmt.Printf("err: %v\n", err)
 	}
