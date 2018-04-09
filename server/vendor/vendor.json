@@ -9,5 +9,11 @@
 			"revisionTime": "2018-03-14T16:31:26Z"
 		}
 	],
+    "heroku": {
+        "install": [
+            "./server",
+            "./file-server"
+        ]
+    },
 	"rootPath": "github.com/vqdo/xword/server"
 }

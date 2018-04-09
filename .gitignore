@@ -12,5 +12,7 @@
 *.out
 
 server/server
+file-server/file-server
+dist
 
 node_modules

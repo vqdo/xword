@@ -298,7 +298,12 @@ func main() {
 	router.HandleFunc("/game", corsHandler(newGameHandler)).Methods("POST", "OPTIONS")
 	router.HandleFunc("/crosswords", corsHandler(puzzleHandler)).Methods("GET", "OPTIONS")
 	http.Handle("/", router)
-	err := http.ListenAndServe(":"+os.Getenv("PORT"), nil)
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "9999"
+	}
+	fmt.Printf("Listening to: %s\n", port)
+	err := http.ListenAndServe(":"+port, nil)
 	if err != nil {
 		fmt.Printf("err: %v\n", err)
 	}
