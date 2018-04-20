@@ -1,1 +1,1 @@
-web: server
+web: cd server && go build && ./server
