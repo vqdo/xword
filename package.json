@@ -13,7 +13,8 @@
     "lint:fix": "cd web && npm run lint:fix",
     "postinstall": "cd web && npm install",
     "build": "cd web && npm run build",
-    "heroku-postbuild": "npm run build"
+    "build:heroku": "cd web && npm run build:heroku",
+    "heroku-postbuild": "npm run build:heroku"
   },
   "husky": {
     "hooks": {
