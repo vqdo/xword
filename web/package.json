@@ -18,7 +18,10 @@
     }
   },
   "private": true,
-  "cacheDirectories": ["web/node_modules", "node_modules"],
+  "cacheDirectories": [
+    "web/node_modules",
+    "node_modules"
+  ],
   "dependencies": {
     "@angular/cli": "1.6.7",
     "@angular/compiler-cli": "^5.2.0",
@@ -44,7 +47,6 @@
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~2.0.0",
     "karma-chrome-launcher": "~2.2.0",
-    "karma-coverage-istanbul-reporter": "^1.2.1",
     "karma-jasmine": "~1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
     "protractor": "~5.1.2",
@@ -52,5 +54,7 @@
     "tslint": "~5.9.1",
     "typescript": "~2.5.3"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "karma-mocha-reporter": "^2.2.5"
+  }
 }

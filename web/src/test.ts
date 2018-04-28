@@ -6,6 +6,7 @@ import {
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting
 } from '@angular/platform-browser-dynamic/testing';
+import './vendor';
 
 declare const require: any;
 
