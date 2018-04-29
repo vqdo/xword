@@ -315,6 +315,24 @@ func puzzleHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write(payload)
 }
 
+func fileServerHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "OPTIONS" {
+		return
+	}
+
+	filepath := fmt.Sprintf("./dist%s", r.RequestURI)
+	content, err := ioutil.ReadFile(filepath)
+	if err != nil {
+		// default to returning index.html
+		content, err = ioutil.ReadFile("./dist/index.html")
+		if err != nil {
+			w.WriteHeader(404)
+			return
+		}
+	}
+	w.Write(content)
+}
+
 func main() {
 	games = make(map[string]*Game)
 
@@ -325,8 +343,15 @@ func main() {
 	router.HandleFunc("/game/{gameID}", corsHandler(existingGameHandler)).Methods("GET", "POST", "OPTIONS")
 	router.HandleFunc("/game", corsHandler(newGameHandler)).Methods("POST", "OPTIONS")
 	router.HandleFunc("/crosswords", corsHandler(puzzleHandler)).Methods("GET", "OPTIONS")
+	router.HandleFunc("/{file}", corsHandler(fileServerHandler)).Methods("GET", "OPTIONS")
+	router.HandleFunc("/", corsHandler(fileServerHandler)).Methods("GET", "OPTIONS")
 	http.Handle("/", router)
-	err := http.ListenAndServe(":"+os.Getenv("PORT"), nil)
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "9999"
+	}
+	fmt.Printf("Listening to: %s\n", port)
+	err := http.ListenAndServe(":"+port, nil)
 	if err != nil {
 		fmt.Printf("err: %v\n", err)
 	}

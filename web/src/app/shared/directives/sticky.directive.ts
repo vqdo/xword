@@ -29,7 +29,6 @@ export class StickyDirective implements OnInit {
 
     if (!this.isSticky) {
       this.targetOffset = this.el.nativeElement.offsetTop;
-      console.log(this.targetOffset);
     }
 
     this.toggleSticky(windowOffsetTop > this.targetOffset);

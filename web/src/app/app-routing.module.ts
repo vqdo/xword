@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { GameComponent } from '@app/game/game/game.component';
+import { HomeComponent } from '@app/home/home.component';
 
 const routes: Routes = [
+  { path: '', component: HomeComponent },
   { path: 'game/:id', component: GameComponent },
 ];
 

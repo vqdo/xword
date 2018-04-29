@@ -102,7 +102,11 @@ export class Game {
       } else if (tile.value === '') {
         rowStr += ' ';
       } else {
-        rowStr += tile.value;
+        if (tile.correct) {
+          rowStr += tile.value;
+        } else {
+          rowStr += ' ';
+        }
       }
     });
     return rowStr;

@@ -1,0 +1,10 @@
+crosswords
+<div>
+  <ul>
+    <li *ngFor="let id of crosswordIds"
+        (click)="crosswordClicked.emit(id)"
+    >
+      {{id}}
+    </li>
+  </ul>
+</div>

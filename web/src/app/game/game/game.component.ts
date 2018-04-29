@@ -28,16 +28,29 @@ export class GameComponent implements OnInit {
 
   public setSelected(clue: Clue) {
     this.game.selectedClue = clue;
+
   }
 
-  public sync() {
+  public syncBoard() {
     this.crosswordDataService.sync(this.game).subscribe((game) => {
       this.game = game;
     });
   }
 
-  public updateGameId() {
-    const gameId = document.getElementById('gameId').innerHTML;
-    this.game.id = gameId;
+  public updateBoardValue() {
+    this.crosswordDataService.sync(this.game).subscribe((game) => {
+      for (let i = 0; i < this.game.crossword.height; i++) {
+        for (let j = 0; j < this.game.crossword.width; j++) {
+          this.game.board[i][j].value = game.board[i][j].value;
+        }
+      }
+    });
+  }
+
+  public remoteSync() {
+    this.syncBoard();
+    setInterval(() => {
+      this.updateBoardValue();
+    }, 500);
   }
 }

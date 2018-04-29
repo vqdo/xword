@@ -42,6 +42,12 @@ export class BoardComponent implements OnInit {
     this.direction = this.direction === 'A' ? 'D' : 'A';
   }
 
+  public selectClue(clue: Clue) {
+    this.game.selectedClue = clue;
+    this.direction = clue.direction;
+    this.selectedTile = this.game.getTile(clue.position);
+  }
+
   private previousTile(direction: Direction) {
     const prev = this.game.previousTile(this.selectedTile, direction);
     return prev || this.selectedTile;

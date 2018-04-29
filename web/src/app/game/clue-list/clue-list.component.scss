@@ -1,0 +1,39 @@
+@import 'variables';
+
+h1 {
+  border-bottom: 1px solid #999;
+  color: red;
+  font-size: 1em;
+}
+
+ul {
+  max-height: 20vh;
+  overflow: auto;
+  padding: 0;
+  opacity: 0.65;
+  transition: max-height linear 0.4s;
+  &.is-active {
+    opacity: 1;
+    max-height: 80vh;
+  }
+}
+li {
+  display: flex;
+  flex-flow: row nowrap;
+  font-size: 0.9em;
+  list-style: none;
+  padding: 0.1em 0.2em;
+  strong {
+    flex: 0 0 2em;
+  }
+  span {
+    flex: 1 1 auto;
+  }
+  &:hover {
+    background: #EEE;
+  }
+}
+.selected-clue {
+  background: #f7f1df;
+  color: $color-tomato;
+}
