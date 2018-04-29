@@ -15,6 +15,10 @@ type GameStateRequest struct {
 	BoardState  string `json:"board_state"`
 }
 
+type GameUpdateRequest struct {
+	BoardState string `json:"board_state"`
+}
+
 type Clue struct {
 	ClueNumber int    `json:"clue_number"`
 	Direction  string `json:"direction"`

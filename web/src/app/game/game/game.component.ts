@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Game, Clue } from '@app/models';
+import { Tile, Game, Clue } from '@app/models';
 import { CrosswordDataService } from '@services/crossword-data.service';
 
 @Component({
@@ -26,4 +26,33 @@ export class GameComponent implements OnInit {
       });
   }
 
+  public setSelected(clue: Clue) {
+    this.game.selectedClue = clue;
+
+  }
+
+  public syncBoard() {
+    this.crosswordDataService.sync(this.game).subscribe((game) => {
+      this.game = game;
+    });
+  }
+
+  public updateBoardValue() {
+    this.crosswordDataService.sync(this.game).subscribe((game) => {
+      for (let i = 0; i < this.game.crossword.height; i++) {
+        for (let j = 0; j < this.game.crossword.width; j++) {
+          if (game.board[i][j].correct) {
+            this.game.board[i][j].value = game.board[i][j].value;
+          }
+        }
+      }
+    });
+  }
+
+  public remoteSync() {
+    this.syncBoard();
+    setInterval(() => {
+      this.updateBoardValue();
+    }, 500);
+  }
 }

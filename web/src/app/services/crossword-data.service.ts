@@ -60,20 +60,33 @@ export class CrosswordDataService {
   }
 
   public getGame(gameId: string): Observable<Game> {
-    if (this.games[gameId]) {
-      return Observable.of(this.games[gameId]);
-    }
-
     return this.http.get(`${AppConfig.GAME_URL}/${gameId}`)
       .mergeMap((res: GameResponse) => {
         return this.http.get(`${AppConfig.GAME_URL}/${gameId}/clues`)
           .map((clueRes: CluesResponse) => this.extractClues(clueRes))
           .map((clues: Clue[]) => {
-            return new Game({
+            const game = new Game({
               id: gameId,
               crossword: this.extractCrossword(res, clues),
             });
+            game.deserializeBoard(res.board_state);
+            return game;
           });
+      });
+  }
+
+  public uploadGame(game: Game): Observable<any> {
+    const boardStr = game.serializeBoard();
+    const data = {
+      'board_state': boardStr,
+    };
+    return this.http.post(`${AppConfig.GAME_URL}/${game.id}`, JSON.stringify(data));
+  }
+
+  public sync(game: Game): Observable<Game> {
+    return this.uploadGame(game)
+      .mergeMap(() => {
+        return this.getGame(game.id);
       });
   }
 
