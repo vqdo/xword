@@ -106,7 +106,7 @@ export class CrosswordDataService {
     return clueRes.clues.map((clue) => {
       return new Clue({
         number: clue.clue_number,
-        position: { x: clue.x, y: clue.y },
+        position: { row: clue.y, col: clue.x },
         tileLength: clue.length,
         hint: clue.hint,
         direction: clue.direction,

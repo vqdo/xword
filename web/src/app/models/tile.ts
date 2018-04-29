@@ -41,7 +41,7 @@ export class Tile {
 
   public setAttributes(args: TileParams) {
     this.value = args.value || -1;
-    this.position = new Position(args.position.x, args.position.y);
+    this.position = new Position(args.position.row, args.position.col);
   }
 
   public addEntry(entry: Entry) {
