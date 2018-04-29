@@ -37,6 +37,7 @@ export class GameComponent implements OnInit {
     });
   }
 
+<<<<<<< HEAD
   public updateBoardValue() {
     this.crosswordDataService.sync(this.game).subscribe((game) => {
       for (let i = 0; i < this.game.crossword.height; i++) {
@@ -52,5 +53,16 @@ export class GameComponent implements OnInit {
     setInterval(() => {
       this.updateBoardValue();
     }, 500);
+=======
+  public sync() {
+    this.crosswordDataService.sync(this.game).subscribe((game) => {
+      this.game = game;
+    });
+  }
+
+  public updateGameId() {
+    const gameId = document.getElementById('gameId').innerHTML;
+    this.game.id = gameId;
+>>>>>>> b5279bcd792ce6fff939e7fc1614de1a38f1fefd
   }
 }

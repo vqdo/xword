@@ -10,7 +10,13 @@
     </div>
     <button>»</button>
   </div>
+<<<<<<< HEAD
   <button (click)="remoteSync()">remote sync</button>
+=======
+  <button (click)="sync()">sync</button>
+  <div id="gameId" contenteditable="true">enter game id here</div>
+  <button (click)="updateGameId()">join game</button>
+>>>>>>> b5279bcd792ce6fff939e7fc1614de1a38f1fefd
   <div class="game-container">
     <xw-board #board [game]="game"></xw-board>
     <div class="clues">
