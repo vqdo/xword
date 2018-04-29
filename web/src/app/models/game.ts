@@ -94,9 +94,9 @@ export class Game {
     });
   }
 
-  private printRow(row: Tile[]): string {
-    let rowStr = '';
-    row.forEach((tile: Tile) => {
+  private serializeRow(row: Tile[]): string {
+    return row.map((tile) => {
+      let rowStr = ''
       if (tile.value === -1) {
         rowStr += '#';
       } else if (tile.value === '') {
@@ -108,16 +108,12 @@ export class Game {
           rowStr += ' ';
         }
       }
-    });
-    return rowStr;
+      return rowStr;
+    }).join('');
   }
 
   public serializeBoard(): string {
-    let boardStr = '';
-    this.board.forEach((row: Tile[]) => {
-      boardStr += this.printRow(row);
-    });
-    return boardStr;
+    return this.board.map((row) => this.serializeRow(row)).join('');
   }
 
   public deserializeBoard(boardStr: string) {

@@ -41,7 +41,9 @@ export class GameComponent implements OnInit {
     this.crosswordDataService.sync(this.game).subscribe((game) => {
       for (let i = 0; i < this.game.crossword.height; i++) {
         for (let j = 0; j < this.game.crossword.width; j++) {
-          this.game.board[i][j].value = game.board[i][j].value;
+          if (game.board[i][j].correct) {
+            this.game.board[i][j].value = game.board[i][j].value;
+          }
         }
       }
     });
