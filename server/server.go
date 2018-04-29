@@ -78,8 +78,14 @@ func newGameHandler(w http.ResponseWriter, r *http.Request) {
 
 	games[gameID] = &game
 
-	var gameResponse NewGameResponse
+	boardStr := game.Grid.getBoard()
+
+	var gameResponse GameResponse
 	gameResponse.GameID = gameID
+	gameResponse.BoardState = boardStr
+	gameResponse.BoardWidth = game.Grid.Width
+	gameResponse.BoardHeight = game.Grid.Height
+
 	payload, err := json.Marshal(gameResponse)
 	if err != nil {
 		w.WriteHeader(500)
@@ -162,12 +168,13 @@ func existingGameHandler(w http.ResponseWriter, r *http.Request) {
 
 	boardStr := game.Grid.getBoard()
 
-	var stateRequest GameStateRequest
-	stateRequest.BoardState = boardStr
-	stateRequest.BoardWidth = game.Grid.Width
-	stateRequest.BoardHeight = game.Grid.Height
+	var gameResponse GameResponse
+	gameResponse.GameID = gameID
+	gameResponse.BoardState = boardStr
+	gameResponse.BoardWidth = game.Grid.Width
+	gameResponse.BoardHeight = game.Grid.Height
 
-	payload, err := json.Marshal(stateRequest)
+	payload, err := json.Marshal(gameResponse)
 	if err != nil {
 		w.WriteHeader(500)
 		w.Write([]byte("internal server error"))

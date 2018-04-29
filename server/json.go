@@ -5,11 +5,8 @@ type NewGameRequest struct {
 	PlayerIDs   []string `json:"player_ids"`
 }
 
-type NewGameResponse struct {
+type GameResponse struct {
 	GameID string `json:"game_id"`
-}
-
-type GameStateRequest struct {
 	BoardWidth  int    `json:"board_width"`
 	BoardHeight int    `json:"board_height"`
 	BoardState  string `json:"board_state"`

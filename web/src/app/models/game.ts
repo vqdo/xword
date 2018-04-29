@@ -96,7 +96,7 @@ export class Game {
 
   private serializeRow(row: Tile[]): string {
     return row.map((tile) => {
-      let rowStr = ''
+      let rowStr = '';
       if (tile.value === -1) {
         rowStr += '#';
       } else if (tile.value === '') {
