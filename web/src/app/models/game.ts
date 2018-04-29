@@ -27,9 +27,9 @@ export class Game {
       return next;
     }
     if (direction === 'A') {
-      return this.getNextValidTile(tile.position.add([1, 0]), [1, 0]);
-    } else if (direction === 'D') {
       return this.getNextValidTile(tile.position.add([0, 1]), [0, 1]);
+    } else if (direction === 'D') {
+      return this.getNextValidTile(tile.position.add([1, 0]), [1, 0]);
     }
     return null;
   }
@@ -40,36 +40,37 @@ export class Game {
       return prev;
     }
     if (direction === 'A') {
-      return this.getNextValidTile(tile.position.add([-1, 0]), [-1, 0]);
-    } else if (direction === 'D') {
       return this.getNextValidTile(tile.position.add([0, -1]), [0, -1]);
+    } else if (direction === 'D') {
+      return this.getNextValidTile(tile.position.add([-1, 0]), [-1, 0]);
     }
   }
 
   private getNextValidTile(position: Position, step: [number, number]) {
-    const [xDelta, yDelta] = step;
+    const [rDelta, cDelta] = step;
     let tile = this.getTile(position);
     while (tile) {
       if (tile.value !== -1) {
+      console.log('returning tile', tile);
         return tile;
       }
-      position = position.add([xDelta, yDelta]);
+      position = position.add([rDelta, cDelta]);
       tile = this.getTile(position);
     }
     return null;
   }
 
-  public getTile(position: Position | {x: number, y: number}) {
-    return this.board[position.y][position.x];
+  public getTile(position: Position | {row: number, col: number}) {
+    return this.board[position.row][position.col];
   }
 
   private initBoard() {
     this.board = [];
-    for (let i = 0; i < this.crossword.height; i++) {
+    for (let c = 0; c < this.crossword.height; c++) {
       const row = [];
-      for (let j = 0; j < this.crossword.height; j++) {
+      for (let r = 0; r < this.crossword.height; r++) {
         row.push(new Tile({
-          position: new Position(j, i),
+          position: new Position(r, c),
         }));
       }
       this.board.push(row);
@@ -81,13 +82,13 @@ export class Game {
   private populateBoard() {
     this.crossword.clues.forEach((clue) => {
       const tiles = [];
-      let [x, y] = [clue.position.x, clue.position.y];
+      let [row, col] = [clue.position.row, clue.position.col];
       for (let i = 0; i < clue.tileLength; i++) {
-        tiles.push(this.getTile({x, y}));
+        tiles.push(this.getTile({row, col}));
         if (clue.direction === 'A') {
-          x++;
+          col++;
         } else {
-          y++;
+          row++;
         }
       }
       const answer = new Entry({ tiles, clue });
@@ -96,7 +97,7 @@ export class Game {
 
   private serializeRow(row: Tile[]): string {
     return row.map((tile) => {
-      let rowStr = ''
+      let rowStr = '';
       if (tile.value === -1) {
         rowStr += '#';
       } else if (tile.value === '') {

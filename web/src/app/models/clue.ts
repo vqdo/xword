@@ -4,7 +4,7 @@ export type Direction = 'A' | 'D';
 
 interface ClueParams {
   number: number;
-  position: {x: number, y: number};
+  position: {row: number, col: number};
   tileLength: number;
   hint: string;
   direction: Direction;
@@ -21,6 +21,6 @@ export class Clue {
 
   constructor(args: ClueParams) {
     Object.assign(this, args);
-    this.position = new Position(args.position.x, args.position.y);
+    this.position = new Position(args.position.row, args.position.col);
   }
 }

@@ -1,24 +1,24 @@
 export class Position {
   constructor(
-    public x: number,
-    public y: number,
+    public row: number,
+    public col: number,
   ) {}
 
   public isEqualTo(o: Position) {
-    return this.x === o.x && this.y === o.y;
+    return this.row === o.row && this.col === o.col;
   }
 
-  public add(position: {x: number, y: number} | [number, number]) {
+  public add(position: {row: number, col: number} | [number, number]) {
     if (position instanceof Array) {
-      return new Position(this.x + position[0], this.y + position[1]);
+      return new Position(this.row + position[0], this.col + position[1]);
     }
-    return new Position(this.x + position.x, this.y + position.y);
+    return new Position(this.row + position.row, this.col + position.col);
   }
 
   public getOffset(o: Position) {
     return {
-      x: o.x - this.x,
-      y: o.y - this.y,
+      row: o.row - this.row,
+      col: o.col - this.col,
     };
   }
 }
