@@ -51,7 +51,6 @@ export class Game {
     let tile = this.getTile(position);
     while (tile) {
       if (tile.value !== -1) {
-      console.log('returning tile', tile);
         return tile;
       }
       position = position.add([rDelta, cDelta]);
@@ -66,9 +65,9 @@ export class Game {
 
   private initBoard() {
     this.board = [];
-    for (let c = 0; c < this.crossword.height; c++) {
+    for (let r = 0; r < this.crossword.height; r++) {
       const row = [];
-      for (let r = 0; r < this.crossword.height; r++) {
+      for (let c = 0; c < this.crossword.width; c++) {
         row.push(new Tile({
           position: new Position(r, c),
         }));
