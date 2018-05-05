@@ -318,11 +318,12 @@ func main() {
 
 	router := mux.NewRouter()
 	//clues
-	router.HandleFunc("/game/{gameID}/clues/{clue}", corsHandler(submitAnswerHandler)).Methods("POST", "OPTIONS")
-	router.HandleFunc("/game/{gameID}/clues", corsHandler(getCluesHandler)).Methods("GET", "OPTIONS")
-	router.HandleFunc("/game/{gameID}", corsHandler(existingGameHandler)).Methods("GET", "POST", "OPTIONS")
-	router.HandleFunc("/game", corsHandler(newGameHandler)).Methods("POST", "OPTIONS")
-	router.HandleFunc("/crosswords", corsHandler(puzzleHandler)).Methods("GET", "OPTIONS")
+	router.HandleFunc("/api/game/{gameID}/clues/{clue}", corsHandler(submitAnswerHandler)).Methods("POST", "OPTIONS")
+	router.HandleFunc("/api/game/{gameID}/clues", corsHandler(getCluesHandler)).Methods("GET", "OPTIONS")
+	router.HandleFunc("/api/game/{gameID}", corsHandler(existingGameHandler)).Methods("GET", "POST", "OPTIONS")
+	router.HandleFunc("/api/game", corsHandler(newGameHandler)).Methods("POST", "OPTIONS")
+	router.HandleFunc("/api/crosswords", corsHandler(puzzleHandler)).Methods("GET", "OPTIONS")
+	router.HandleFunc("/game/{gameID}", corsHandler(fileServerHandler)).Methods("GET", "OPTIONS")
 	router.HandleFunc("/{file}", corsHandler(fileServerHandler)).Methods("GET", "OPTIONS")
 	router.HandleFunc("/", corsHandler(fileServerHandler)).Methods("GET", "OPTIONS")
 	http.Handle("/", router)

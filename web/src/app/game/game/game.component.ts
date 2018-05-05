@@ -23,6 +23,7 @@ export class GameComponent implements OnInit {
       })
       .subscribe((game) => {
         this.game = game;
+        this.remoteSync();
       });
   }
 
@@ -53,6 +54,6 @@ export class GameComponent implements OnInit {
     this.syncBoard();
     setInterval(() => {
       this.updateBoardValue();
-    }, 500);
+    }, 3000);
   }
 }
