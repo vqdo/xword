@@ -1,10 +1,11 @@
-crosswords
+Welcome to xword.fun! Click on one of the links below to start playing. Share the address with your friends so they can help!
 <div>
-  <ul>
+  <ul style="list-style: none;">
     <li *ngFor="let id of crosswordIds"
         (click)="crosswordClicked.emit(id)"
     >
-      {{id}}
+      <button>{{id}}</button>
     </li>
   </ul>
 </div>
+built by eric and vicdo
