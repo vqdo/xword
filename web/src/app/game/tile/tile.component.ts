@@ -39,7 +39,7 @@ export class TileComponent implements OnInit, OnChanges {
 
   public onInputChange(keyEvt) {
     const { keyCode, key } = keyEvt;
-    if (this.tile.value == -1) {
+    if (this.tile.value === -1) {
       return;
     }
     if ((keyCode >= CAP_LETTER_RANGE_START && keyCode <= CAP_LETTER_RANGE_END) ||

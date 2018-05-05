@@ -98,17 +98,11 @@ func newGameHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func getGame(gameID, playerID string) (*Game, error) {
+func getGame(gameID string) (*Game, error) {
 	game, ok := games[gameID]
 	if !ok {
 		return nil, fmt.Errorf("no active games with id: %s", gameID)
 	}
-
-	_, ok = game.Players[playerID]
-	if !ok {
-		return nil, fmt.Errorf("you are not part of this game")
-	}
-
 	return game, nil
 }
 
@@ -125,17 +119,10 @@ func existingGameHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	playerID := r.Header.Get("Player-ID")
-	if len(playerID) == 0 {
-		w.WriteHeader(404)
-		w.Write([]byte("no Player-ID header provided"))
-		return
-	}
-
-	game, err := getGame(gameID, playerID)
+	game, err := getGame(gameID)
 	if err != nil {
 		w.WriteHeader(404)
-		w.Write([]byte(fmt.Sprintf("game id: %s not found or you are not part of it", gameID)))
+		w.Write([]byte(fmt.Sprintf("game id: %s not found", gameID)))
 		return
 	}
 
@@ -200,17 +187,10 @@ func getCluesHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	playerID := r.Header.Get("Player-ID")
-	if len(playerID) == 0 {
-		w.WriteHeader(404)
-		w.Write([]byte("no Player-ID header provided"))
-		return
-	}
-
-	game, err := getGame(gameID, playerID)
+	game, err := getGame(gameID)
 	if err != nil {
 		w.WriteHeader(404)
-		w.Write([]byte(fmt.Sprintf("game id: %s not found or you are not part of it", gameID)))
+		w.Write([]byte(fmt.Sprintf("game id: %s not found", gameID)))
 		return
 	}
 
@@ -250,17 +230,10 @@ func submitAnswerHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	playerID := r.Header.Get("Player-ID")
-	if len(playerID) == 0 {
-		w.WriteHeader(404)
-		w.Write([]byte("no Player-ID header provided"))
-		return
-	}
-
-	game, err := getGame(gameID, playerID)
+	game, err := getGame(gameID)
 	if err != nil {
 		w.WriteHeader(404)
-		w.Write([]byte(fmt.Sprintf("game id: %s not found or you are not part of it", gameID)))
+		w.Write([]byte(fmt.Sprintf("game id: %s not found", gameID)))
 		return
 	}
 
