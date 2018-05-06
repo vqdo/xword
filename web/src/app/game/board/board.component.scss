@@ -1,4 +1,5 @@
 @import 'variables';
+@import 'media-queries';
 
 .board-row {
   display: flex;
@@ -61,6 +62,12 @@
   &:last-child {
     .tile {
       border-bottom-width: 1px;
+    }
+  }
+
+  @include for-phone-only {
+    .tile {
+      font-size: 2em;
     }
   }
 }
