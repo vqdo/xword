@@ -1,0 +1,14 @@
+:host {
+  width: 80vw;
+  margin: auto;
+  display: flex;
+  flex-flow: column nowrap;
+  min-height: 100vh;
+}
+
+footer {
+  display: flex;
+  margin-top: auto;
+  padding: 1em;
+  font-size: 0.8em;
+}
