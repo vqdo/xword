@@ -6,12 +6,18 @@
   <div class="clue-bar" xwSticky>
     <button>«</button>
     <div>
+      {{game.selectedClue && game.selectedClue.number + '.'}}
       {{game.selectedClue && game.selectedClue.hint}}
     </div>
     <button>»</button>
   </div>
   <div class="game-container">
-    <xw-board #board [game]="game"></xw-board>
+    <div class="board-wrapper">
+      <xw-board #board
+        [game]="game"
+        [style.width]="game.crossword.width * 2.4 + 'em'"
+      ></xw-board>
+    </div>
     <div class="clues">
       <xw-clue-list [title]="'Across'"
         [clues]="game.crossword.acrossClues"
