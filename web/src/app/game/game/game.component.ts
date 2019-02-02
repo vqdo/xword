@@ -27,6 +27,18 @@ export class GameComponent implements OnInit {
       });
   }
 
+  public nextClue() {
+    const clues = this.game.selectedClue.direction === 'A' ? this.game.crossword.acrossClues : this.game.crossword.downClues;
+    const clueIndex = clues.indexOf(this.game.selectedClue);
+    this.game.selectedClue = clues[clueIndex + 1];
+  }
+
+  public previousClue() {
+    const clues = this.game.selectedClue.direction === 'A' ? this.game.crossword.acrossClues : this.game.crossword.downClues;
+    const clueIndex = clues.indexOf(this.game.selectedClue);
+    this.game.selectedClue = clues[clueIndex - 1];
+  }
+
   public setSelected(clue: Clue) {
     this.game.selectedClue = clue;
 
