@@ -36,6 +36,7 @@ export class BoardComponent implements OnInit {
     } else {
       this.selectedTile = this.nextTile(this.direction);
     }
+    this.game.selectedClue = this.selectedTile.getClue(this.direction);
   }
 
   public changeDirection() {
