@@ -13,10 +13,11 @@ const preCluesStr2 = " Fred Piscop"
 
 // Game holds state for a game
 type Game struct {
-	GameID  string
-	Clues   map[string]Clue
-	Grid    *Board
-	Players map[string]struct{}
+	GameID      string
+	CrosswordID string
+	Clues       map[string]Clue
+	Grid        *Board
+	Players     map[string]struct{}
 }
 
 func (g *Game) init() {

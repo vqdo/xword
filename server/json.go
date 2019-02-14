@@ -6,7 +6,8 @@ type NewGameRequest struct {
 }
 
 type GameResponse struct {
-	GameID string `json:"game_id"`
+	GameID      string `json:"game_id"`
+	CrosswordID string `json:"crossword_id"`
 	BoardWidth  int    `json:"board_width"`
 	BoardHeight int    `json:"board_height"`
 	BoardState  string `json:"board_state"`

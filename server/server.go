@@ -57,10 +57,11 @@ func newGameHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	game := Game{
-		GameID:  gameID,
-		Clues:   make(map[string]Clue),
-		Grid:    &Board{},
-		Players: make(map[string]struct{}),
+		GameID:      gameID,
+		CrosswordID: gameRequest.CrosswordID,
+		Clues:       make(map[string]Clue),
+		Grid:        &Board{},
+		Players:     make(map[string]struct{}),
 	}
 
 	// add players to game
@@ -82,6 +83,7 @@ func newGameHandler(w http.ResponseWriter, r *http.Request) {
 
 	var gameResponse GameResponse
 	gameResponse.GameID = gameID
+	gameResponse.CrosswordID = gameRequest.CrosswordID
 	gameResponse.BoardState = boardStr
 	gameResponse.BoardWidth = game.Grid.Width
 	gameResponse.BoardHeight = game.Grid.Height
@@ -157,6 +159,7 @@ func existingGameHandler(w http.ResponseWriter, r *http.Request) {
 
 	var gameResponse GameResponse
 	gameResponse.GameID = gameID
+	gameResponse.CrosswordID = game.CrosswordID
 	gameResponse.BoardState = boardStr
 	gameResponse.BoardWidth = game.Grid.Width
 	gameResponse.BoardHeight = game.Grid.Height

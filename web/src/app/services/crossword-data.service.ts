@@ -15,6 +15,7 @@ interface NewGameResponse {
 }
 
 interface GameResponse {
+  'crossword_id': string;
   'board_height': number;
   'board_state': string;
   'board_width': number;
@@ -69,6 +70,7 @@ export class CrosswordDataService {
               id: gameId,
               crossword: this.extractCrossword(res, clues),
             });
+            game.crossword.title = res.crossword_id;
             game.deserializeBoard(res.board_state);
             return game;
           });
