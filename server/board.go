@@ -28,7 +28,7 @@ func (b *Board) getBoard() string {
 	boardStr := ""
 	for r := 0; r < b.Height; r++ {
 		rowStr := ""
-		for c := 0; c < b.Height; c++ {
+		for c := 0; c < b.Width; c++ {
 			rowStr += b.board[r][c]
 		}
 		boardStr += rowStr;
@@ -57,7 +57,7 @@ func (b *Board) updateBoard(board string) error {
 
 	strIndex := 0
 	for r := 0; r < b.Height; r++ {
-		for c := 0; c < b.Height; c++ {
+		for c := 0; c < b.Width; c++ {
 			if (b.board[r][c] == " ") {
 				b.board[r][c] = string(board[strIndex])
 			}

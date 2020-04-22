@@ -7,7 +7,6 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
-	"os"
 	"path"
 	"strings"
 
@@ -316,6 +315,10 @@ func fileServerHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write(content)
 }
 
+func redirectTLS(w http.ResponseWriter, r *http.Request) {
+	http.Redirect(w, r, "https://crossword.monster"+r.RequestURI, http.StatusMovedPermanently)
+}
+
 func main() {
 	games = make(map[string]*Game)
 
@@ -329,14 +332,12 @@ func main() {
 	router.HandleFunc("/game/{gameID}", corsHandler(fileServerHandler)).Methods("GET", "OPTIONS")
 	router.HandleFunc("/{file}", corsHandler(fileServerHandler)).Methods("GET", "OPTIONS")
 	router.HandleFunc("/", corsHandler(fileServerHandler)).Methods("GET", "OPTIONS")
-	http.Handle("/", router)
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "9999"
-	}
-	fmt.Printf("Listening to: %s\n", port)
-	err := http.ListenAndServe(":"+port, nil)
-	if err != nil {
-		fmt.Printf("err: %v\n", err)
-	}
+	go func() {
+		redirectRouter := mux.NewRouter()
+		redirectRouter.HandleFunc("/", redirectTLS)
+		err := http.ListenAndServe(":80", redirectRouter)
+		fmt.Printf("couldnt start server on port 80, err: %s\n", err.Error())
+	}()
+	err := http.ListenAndServeTLS(":443", "/etc/letsencrypt/live/crossword.monster/fullchain.pem", "/etc/letsencrypt/live/crossword.monster/privkey.pem", router)
+	fmt.Printf("couldnt start server on port 443, err: %s\n", err.Error())
 }
