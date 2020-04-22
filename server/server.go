@@ -23,7 +23,7 @@ func corsHandler(f http.HandlerFunc) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Access-Control-Allow-Headers", "Player-ID")
-		f(w,r)
+		f(w, r)
 	})
 }
 
@@ -128,14 +128,14 @@ func existingGameHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if r.Method == "POST" {
-		
+
 		body, err := ioutil.ReadAll(r.Body)
 		if err != nil {
 			w.WriteHeader(404)
 			w.Write([]byte("could not read request body"))
 			return
 		}
-		var updateRequest GameUpdateRequest 
+		var updateRequest GameUpdateRequest
 
 		err = json.Unmarshal(body, &updateRequest)
 		if err != nil {

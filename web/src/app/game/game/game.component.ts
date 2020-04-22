@@ -27,6 +27,18 @@ export class GameComponent implements OnInit {
       });
   }
 
+  public checkCrossword() {
+    if (this.game.check()) {
+      alert("Congratulations, its all correct! 🎉")
+    } else {
+      alert("At least one of your answers is incorrect ❌")
+    }
+  }
+
+  public showErrors() {
+    this.game.showErrors();
+  }
+
   public nextClue() {
     const clues = this.game.selectedClue.direction === 'A' ? this.game.crossword.acrossClues : this.game.crossword.downClues;
     const clueIndex = clues.indexOf(this.game.selectedClue);
@@ -44,18 +56,14 @@ export class GameComponent implements OnInit {
 
   }
 
-  public syncBoard() {
-    this.crosswordDataService.sync(this.game).subscribe((game) => {
-      this.game = game;
-    });
-  }
-
   public updateBoardValue() {
     this.crosswordDataService.sync(this.game).subscribe((game) => {
       for (let i = 0; i < this.game.crossword.height; i++) {
         for (let j = 0; j < this.game.crossword.width; j++) {
           if (game.board[i][j].correct) {
-            this.game.board[i][j].value = game.board[i][j].value;
+            if (this.game.board[i][j].value == '') {
+              this.game.board[i][j].value = game.board[i][j].value;
+            }
           }
         }
       }
@@ -63,7 +71,7 @@ export class GameComponent implements OnInit {
   }
 
   public remoteSync() {
-    this.syncBoard();
+    this.updateBoardValue();
     setInterval(() => {
       this.updateBoardValue();
     }, 3000);

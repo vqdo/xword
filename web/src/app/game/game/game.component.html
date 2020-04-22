@@ -1,6 +1,8 @@
 <div *ngIf="game" class="game">
   <header>
     <h1>{{game.crossword.title || 'No title'}}</h1>
+    <button (click)="checkCrossword()">CHECK CROSSWORD</button>
+    <button (click)="showErrors()">SHOW ERRORS</button>
     <span>{{game.crossword.date | date:'fullDate'}}</span>
   </header>
   <div class="clue-bar" xwSticky>

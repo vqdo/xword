@@ -31,7 +31,7 @@ func (b *Board) getBoard() string {
 		for c := 0; c < b.Width; c++ {
 			rowStr += b.board[r][c]
 		}
-		boardStr += rowStr;
+		boardStr += rowStr
 	}
 	return fmt.Sprintf(boardStr)
 }
@@ -51,14 +51,18 @@ func (b *Board) setBoard(clues map[string]Clue) {
 }
 
 func (b *Board) updateBoard(board string) error {
-	if len(board) != b.Width * b.Height {
+	if len(board) != b.Width*b.Height {
 		return fmt.Errorf("not a complete board")
 	}
 
 	strIndex := 0
 	for r := 0; r < b.Height; r++ {
 		for c := 0; c < b.Width; c++ {
+<<<<<<< Updated upstream
 			if (b.board[r][c] == " ") {
+=======
+			if b.board[r][c] == " " {
+>>>>>>> Stashed changes
 				b.board[r][c] = string(board[strIndex])
 			}
 			strIndex++

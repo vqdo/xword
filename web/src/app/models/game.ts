@@ -133,4 +133,24 @@ export class Game {
       }
     }
   }
+
+  public check(): boolean {
+    for (let r = 0; r < this.crossword.width; r++) {
+      for (let c = 0; c < this.crossword.height; c++) {
+        const tile = this.board[r][c]
+        if (tile.value !== -1 && !tile.correct) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  public showErrors() {
+    for (let r = 0; r < this.crossword.width; r++) {
+      for (let c = 0; c < this.crossword.height; c++) {
+        this.board[r][c].showError = true;
+      }
+    }
+  }
 }

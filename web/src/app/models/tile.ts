@@ -1,6 +1,7 @@
 import { Clue, Direction } from './clue';
 import { Position } from './position';
 import { Entry } from './entry';
+import { ValueTransformer } from '@angular/compiler/src/util';
 
 interface TileParams {
   value?: -1 | string;
@@ -11,6 +12,7 @@ export class Tile {
   public associatedEntries: Entry[] = [];
   public position: Position;
   public correct: boolean = false;
+  public showError: boolean = false;
 
   private _value: -1 | string = -1;
 
